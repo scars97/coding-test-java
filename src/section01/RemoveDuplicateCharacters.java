@@ -21,5 +21,6 @@ public class RemoveDuplicateCharacters {
         }
 
         System.out.println(sb);
+        sc.close();
     }
 }

@@ -11,33 +11,19 @@ import java.util.Scanner;
  */
 public class ValidPalindromes {
 
-    static final String REGEX = "[^A-Z]";
 
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
 
-        String str = sc.next();
-        // 문제에서는 알바벳 이외의 문자들은 무시한다 말하고 있다.
-        // fail-1 : 특수문자를 기준으로 split
-        // fail-2 : 만약 숫자가 입력될 시 숫자까지 포함해서 String 배열에 저장된다.
-        String[] split = str.split(REGEX);
+        // 한 단어가 아닌 한 줄을 읽어야 함.
+        String str = sc.nextLine();
 
-        // 반복문을 돌리지 않아도 된다.
-        String result = "YES";
-        for (int i = 0; i < split.length / 2; i++) {
-            boolean palindrome = isPalindrome(split[i], split[split.length - i - 1]);
-            if (!palindrome) {
-                result = "NO";
-                break;
-            }
-        }
+        String tmp = str.toUpperCase().replaceAll("[^A-Z]", "");
+
+        String reverseTmp = new StringBuilder(tmp).reverse().toString();
+        String result = tmp.equals(reverseTmp) ? "YES" : "NO";
 
         System.out.println(result);
         sc.close();
-    }
-
-    static boolean isPalindrome(String origin, String reverse) {
-        String reverseOfOrigin = new StringBuilder(origin).reverse().toString();
-        return reverseOfOrigin.equalsIgnoreCase(reverse);
     }
 }

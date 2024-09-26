@@ -23,5 +23,6 @@ public class PalindromeString {
         }
 
         System.out.println(result);
+        sc.close();
     }
 }
