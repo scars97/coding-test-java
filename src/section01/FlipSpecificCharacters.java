@@ -2,6 +2,9 @@ package section01;
 
 import java.util.Scanner;
 
+/**
+ * 특정 문자 뒤집기
+ */
 public class FlipSpecificCharacters {
 
     public static void main(String[] args) {
