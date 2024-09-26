@@ -8,18 +8,20 @@ import java.util.Scanner;
 public class PalindromeString {
 
     public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
+       Scanner sc = new Scanner(System.in);
 
         String str = sc.next();
-        String reverseStr = new StringBuilder(str).reverse().toString();
-
         String upperCaseOfStr = str.toUpperCase();
-        String upperCaseOfReverseStr = reverseStr.toUpperCase();
 
-        if (upperCaseOfStr.equals(upperCaseOfReverseStr)) {
-            System.out.println("YES");
-        } else {
-            System.out.println("NO");
+        String result = "YES";
+        int endIndex = str.length() - 1;
+        for (int i = 0; i < str.length() / 2; i++) {
+            if (upperCaseOfStr.charAt(i) != upperCaseOfStr.charAt(endIndex - i)) {
+                result = "NO";
+                break;
+            }
         }
+
+        System.out.println(result);
     }
 }
