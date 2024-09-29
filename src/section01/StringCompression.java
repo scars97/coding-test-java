@@ -23,27 +23,21 @@ public class StringCompression {
 
         StringBuilder sb = new StringBuilder();
 
+        str += " ";
         int count = 1;
-        for (int i = 0; i < str.length(); i++) {
-
+        for (int i = 0; i < str.length() - 1; i++) {
             char c = str.charAt(i);
-            if (i != str.length() - 1) {
-                if (c == str.charAt(i + 1)) {
-                    count++;
-                } else {
-                    sb.append(c);
 
-                    if (count > 1) {
-                        sb.append(count);
-                    }
-
-                    count = 1;
-                }
+            if (c == str.charAt(i + 1)) {
+                count++;
             } else {
                 sb.append(c);
-                if (c == str.charAt(i - 1)) {
+
+                if (count > 1) {
                     sb.append(count);
                 }
+
+                count = 1;
             }
         }
 
