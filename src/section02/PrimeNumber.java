@@ -22,19 +22,24 @@ public class PrimeNumber {
             intArray[i] = i + 1;
         }
 
-        // 1 -> 2
-        // 3 -> 4
-        // 5 -> 6
-        for (int i = 1; i <= n; i++) {
+        int count = 0;
+
+        intArray[0] = 0;
+        for (int i = 1; i < n; i++) {
             int tmp = intArray[i];
 
             if (tmp != 0) {
                 int length = n / tmp;
-                for (int j = 2; j <= length; j++) {
+                for (int j = 1; j < length; j++) {
                     int fold = tmp * j;
-
+                    intArray[i+fold] = 0;
                 }
+                count++;
             }
+
         }
+
+        System.out.println(count);
+        sc.close();
     }
 }
