@@ -20,33 +20,21 @@ public class Mentoring {
         }
 
         int resultCount = 0;
-        int rootStd = 1;
-        while (rootStd != n + 1) {
-            for (int std = 1; std <= n; std++) {
-                if (rootStd != std) {
-                    int winnerCount = 0;
-                    for (int test = 1; test <= m; test++) {
-                        int rootScore = 0;
-                        int otherScore = 0;
-                        for (int i = 1; i <= n; i++) {
-                            if (arr[test][i] == rootStd) {
-                                rootScore = i;
-                            }
-                            if (arr[test][i] == std) {
-                                otherScore = i;
-                            }
-                        }
-                        if (rootScore > otherScore) {
-                            break;
-                        }
-                        winnerCount++;
+        for (int rootStd = 1; rootStd <= n; rootStd++) {
+            for (int otherStd = 1; otherStd <= n; otherStd++) {
+                int winnerCount = 0;
+
+                for (int test = 1; test <= m; test++) {
+                    int rootTh = 0;
+                    int otherTh = 0;
+                    for (int th = 1; th <= n; th++) {
+                        if (arr[test][th] == rootStd) rootTh = th;
+                        if (arr[test][th] == otherStd) otherTh = th;
                     }
-                    if (winnerCount == m) {
-                        resultCount++;
-                    }
+                    if (rootTh < otherTh) winnerCount++;
                 }
+                if (winnerCount == m) resultCount++;
             }
-            rootStd++;
         }
 
         System.out.println(resultCount);
