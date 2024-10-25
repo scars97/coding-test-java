@@ -2,6 +2,11 @@ package lecture.section02;
 
 import java.util.Scanner;
 
+/**
+ * 임시 반장 정하기
+ *
+ * 같은 반이었던 n번 학생과 또 같은 반이 되는 경우는 제외
+ */
 public class TemporaryClassPresident {
 
     private static final int GRADE = 5;
@@ -10,39 +15,29 @@ public class TemporaryClassPresident {
         Scanner sc = new Scanner(System.in);
 
         int n = sc.nextInt();
-        int[] sameClassCounts = new int[n];
-        int[][] classes = new int[n][GRADE];
-        for (int i = 0; i < n; i++) {
-            sameClassCounts[i] = 0;
-            for (int j = 0; j < GRADE; j++) {
+        int[][] classes = new int[n+1][GRADE+1];
+        for (int i = 1; i <= n; i++) {
+            for (int j = 1; j <= GRADE; j++) {
                 classes[i][j] = sc.nextInt();
             }
         }
 
-        for (int grade = 0; grade < GRADE; grade++) {
-            for (int student = 0; student < n; student++) {
-                for (int otherStudent = 0; otherStudent < n; otherStudent++) {
-                    if (student != otherStudent) {
-                        if (classes[student][grade] == classes[otherStudent][grade]) {
-                            sameClassCounts[student]++;
-                            break;
-                        }
+        int classPresident = 0;
+        int max = 0;
+        for (int student = 1; student <= n; student++) {
+            int sameClassCounts = 0;
+            for (int otherStudent = 1; otherStudent <= n; otherStudent++) {
+                for (int grade = 1; grade <= GRADE; grade++) {
+                    if (classes[student][grade] == classes[otherStudent][grade]) {
+                        sameClassCounts++;
+                        break;
                     }
                 }
+                if (max < sameClassCounts) {
+                    max = sameClassCounts;
+                    classPresident = student;
+                }
             }
-        }
-
-        int classPresident = 0;
-        int maxCount = 0;
-        for (int i = 0; i < sameClassCounts.length; i++) {
-            if (maxCount < sameClassCounts[i]) {
-                maxCount = sameClassCounts[i];
-                classPresident = i + 1;
-            }
-        }
-
-        if (maxCount == 0) {
-            classPresident = 1;
         }
 
         System.out.println(classPresident);
