@@ -21,19 +21,18 @@ public class CorrectParentheses {
         for (int i = 0; i < str.length(); i++) {
             char tmp = str.charAt(i);
 
-            if (i == 0 && tmp == close) {
-                result = "NO";
-                break;
+            if (tmp == open) {
+                stack.push(str.charAt(i));
             }
-
             if (tmp == close) {
+                if (stack.isEmpty()) {
+                    result = "NO";
+                    break;
+                }
+
                 if (stack.peek() == open) {
                     stack.pop();
                 }
-            }
-
-            if (tmp == open) {
-                stack.push(str.charAt(i));
             }
         }
 
@@ -42,7 +41,6 @@ public class CorrectParentheses {
         }
 
         System.out.println(result);
-
         sc.close();
     }
 
