@@ -14,29 +14,20 @@ public class ClassPresident {
 
         int n = sc.nextInt();
         String str = sc.next();
-
         Map<Character, Integer> map = new HashMap<>();
         for (int i = 0; i < str.length(); i++) {
             char tmp = str.charAt(i);
-            int count = 1;
 
-            if (!map.isEmpty()) {
-                if (map.get(tmp) != null) {
-                    map.put(tmp, map.get(tmp) + 1);
-                } else {
-                    map.put(tmp, count);
-                }
-            } else {
-                map.put(tmp, count);
-            }
+            map.put(tmp, map.getOrDefault(tmp, 0) + 1);
         }
 
-        String result = "";
         int max = 0;
-        for (Map.Entry<Character, Integer> entry : map.entrySet()) {
-            if (max < entry.getValue()) {
-                max = entry.getValue();
-                result = entry.getKey().toString();
+        char result = ' ';
+        for (char key : map.keySet()) {
+            int value = map.get(key);
+            if (max < map.get(key)) {
+                max = value;
+                result = key;
             }
         }
 
