@@ -7,30 +7,29 @@ public class Game {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
 
-        double x = sc.nextDouble();
-        double y = sc.nextDouble();
-        double z = (y / x) * 100.0;
+        int x = sc.nextInt();
+        int y = sc.nextInt();
+        int z = getPercent(x, y);
 
-        int resultRate = (int) z;
-        int count = 0;
-        if (x != y) {
-            for (double i = y + 1; i <= x + 1; i++) {
-                x++;
+        int result = -1;
+        int left = 0;
+        int right = 1_000_000_000;
+        while (left <= right) {
+            int mid = (left + right) / 2;
 
-                double tmp = (i / x) * 100.0;
-                int rate = (int) tmp;
-
-                count++;
-
-                if (resultRate != rate) {
-                    break;
-                }
+            if (getPercent(x + mid, y + mid) != z) {
+                result = mid;
+                right = mid - 1;
+            } else {
+                left = mid + 1;
             }
-        } else {
-            count = -1;
         }
 
-        System.out.println(count);
+        System.out.println(result);
         sc.close();
+    }
+
+    static int getPercent(int x, int y) {
+        return (int) ((long) y * 100 / x);
     }
 }
