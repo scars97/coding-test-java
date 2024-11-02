@@ -22,20 +22,19 @@ public class CuttingTrees {
         while (left <= right) {
             int mid = (left + right) / 2;
 
-            int totalHeight = 0;
+            // 오버플로우 - 베어낸 나무 길이의 합이 int 범위를 넘을 수 있다.
+            long totalHeight = 0;
             for (int tree : trees) {
                 if (tree - mid > 0) {
                     totalHeight += (tree - mid);
                 }
             }
 
-            // 나무 길이를 최대 m 만큼 얻는 것이 아니라,
-            // 최소 m 이상 얻을 수 있는 최대 높이를 찾는 것
-            if (totalHeight <= m) {
+            if (totalHeight >= m) {
                 result = mid;
-                right = mid - 1;
-            } else {
                 left = mid + 1;
+            } else {
+                right = mid - 1;
             }
         }
 
