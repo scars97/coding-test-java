@@ -1,13 +1,15 @@
 package spartacodingclub.mission.week02;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.Queue;
 import java.util.Scanner;
 
 public class FamilyRelation {
 
     static ArrayList<Integer>[] relations;
     static boolean[] visited;
-    static int result = -1;
+    static int[] distance;
 
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
@@ -19,6 +21,8 @@ public class FamilyRelation {
 
         relations = new ArrayList[n + 1];
         visited = new boolean[n + 1];
+        distance = new int[n + 1];
+
         for (int i = 1; i <= n; i++) {
             relations[i] = new ArrayList<>();
         }
@@ -30,27 +34,34 @@ public class FamilyRelation {
             relations[y].add(x);
         }
 
-        dfs(start, end, 0);
+        int result = bfs(start, end);
 
         System.out.println(result);
         sc.close();
     }
 
+    static int bfs(int start, int end) {
+        Queue<Integer> queue = new LinkedList<>();
+        queue.add(start);
+        visited[start] = true;
+        distance[start] = 0;
 
-    static void dfs(int current, int target, int depth) {
-        visited[current] = true;
+        while (!queue.isEmpty()) {
+            int current = queue.remove();
 
-        if (current == target) {
-            result = depth;
-            return;
-        }
+            if (current == end) {
+                return distance[current];
+            }
 
-        for (int next : relations[current]) {
-            if (!visited[next]) {
-                dfs(next, target, depth + 1);
-
-                if (result != -1) return;
+            for (int next : relations[current]) {
+                if (!visited[next]) {
+                    visited[next] = true;
+                    distance[next] = distance[current] + 1;
+                    queue.add(next);
+                }
             }
         }
+
+        return -1;
     }
 }
