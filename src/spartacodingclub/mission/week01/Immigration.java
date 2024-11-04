@@ -1,4 +1,4 @@
-package spartacodingclub.mission.week1;
+package spartacodingclub.mission.week01;
 
 public class Immigration {
 
