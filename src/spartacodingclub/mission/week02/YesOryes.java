@@ -1,14 +1,18 @@
 package spartacodingclub.mission.week02;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Scanner;
+import java.util.Set;
 
 public class YesOryes {
 
+    static final int START_NODE = 1;
+
     static ArrayList<Integer>[] graph;
     static boolean[] visited;
-    static int[] fans;
-    static int count = 0;
+    static Set<Integer> fans;
+    static int unmeetCount = 0;
 
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
@@ -29,30 +33,29 @@ public class YesOryes {
         }
 
         int s = sc.nextInt();
-        fans = new int[s];
+        fans = new HashSet<>();
         for (int i = 0; i < s; i++) {
-            fans[i] = sc.nextInt();
+            fans.add(sc.nextInt());
         }
 
-        dfs(1);
+        visited[START_NODE] = true;
+        dfs(START_NODE);
 
-        System.out.println(count == 0 ? "Yes" : "yes");
+        System.out.println(unmeetCount == 0 ? "Yes" : "yes");
         sc.close();
     }
 
     static void dfs(int node) {
-        for (int fan : fans) {
-            if (node == fan) {
-                return;
-            }
-        }
+        if (fans.contains(node)) return;
 
         if (graph[node].isEmpty()) {
-            count++;
+            unmeetCount++;
+            return;
         }
 
         for (int next : graph[node]) {
             if (!visited[next]) {
+                visited[next] = true;
                 dfs(next);
             }
         }
