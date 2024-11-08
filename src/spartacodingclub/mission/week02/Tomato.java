@@ -6,10 +6,11 @@ import java.util.Scanner;
 
 public class Tomato {
 
-    static int m;
-    static int n;
-    static int h;
-    static int[][] tomatoBoxes;
+    static int m, n, h;
+    static int[][][] tomatoBoxes; // 3차원 배열로 변경
+    static int[] dx = {1, -1, 0, 0, 0, 0};
+    static int[] dy = {0, 0, 1, -1, 0, 0};
+    static int[] dz = {0, 0, 0, 0, 1, -1}; // 위, 아래 이동을 위한 배열
 
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
@@ -18,14 +19,16 @@ public class Tomato {
         n = sc.nextInt();
         h = sc.nextInt();
 
-        tomatoBoxes = new int[n * h][m];
+        tomatoBoxes = new int[h][n][m];
         Queue<Spot> queue = new LinkedList<>();
-        for (int row = 0; row < n * h; row++) {
-            for (int col = 0; col < m; col++) {
-                tomatoBoxes[row][col] = sc.nextInt();
 
-                if (tomatoBoxes[row][col] == 1) {
-                    queue.add(new Spot(row, col));
+        for (int i = 0; i < h; i++) {
+            for (int j = 0; j < n; j++) {
+                for (int k = 0; k < m; k++) {
+                    tomatoBoxes[i][j][k] = sc.nextInt();
+                    if (tomatoBoxes[i][j][k] == 1) {
+                        queue.add(new Spot(i, j, k));
+                    }
                 }
             }
         }
@@ -33,7 +36,6 @@ public class Tomato {
         bfs(queue);
 
         int result = checkDay();
-
         System.out.println(result);
         sc.close();
     }
@@ -41,82 +43,46 @@ public class Tomato {
     private static int checkDay() {
         int day = 0;
 
-        for (int row = 0; row < n * h; row++) {
-            for (int col = 0; col < m; col++) {
-                if (tomatoBoxes[row][col] == 0) {
-                    return -1;
+        for (int i = 0; i < h; i++) {
+            for (int j = 0; j < n; j++) {
+                for (int k = 0; k < m; k++) {
+                    if (tomatoBoxes[i][j][k] == 0) {
+                        return -1;
+                    }
+                    day = Math.max(day, tomatoBoxes[i][j][k]);
                 }
-
-                day = Math.max(tomatoBoxes[row][col], day);
             }
         }
-
         return day - 1;
     }
 
     static void bfs(Queue<Spot> queue) {
-
         while (!queue.isEmpty()) {
             Spot spot = queue.remove();
-            int row = spot.row;
-            int col = spot.col;
+            int z = spot.z, y = spot.y, x = spot.x;
 
-            if (tomatoBoxes[row][col] >= 1) {
-                int nextDay = tomatoBoxes[row][col] + 1;
+            for (int i = 0; i < 6; i++) {
+                int nz = z + dz[i];
+                int ny = y + dy[i];
+                int nx = x + dx[i];
 
-                if (row - 1 >= 0) {
-                    if (tomatoBoxes[row - 1][col] == 0) {
-                        tomatoBoxes[row - 1][col] = nextDay;
-                        queue.add(new Spot(row - 1, col));
-                    }
-                }
-
-                if (row + 1 < n * h) {
-                    if (tomatoBoxes[row + 1][col] == 0) {
-                        tomatoBoxes[row + 1][col] = nextDay;
-                        queue.add(new Spot(row + 1, col));
-                    }
-                }
-
-                if (col - 1 >= 0) {
-                    if (tomatoBoxes[row][col - 1] == 0) {
-                        tomatoBoxes[row][col - 1] = nextDay;
-                        queue.add(new Spot(row, col - 1));
-                    }
-                }
-
-                if (col + 1 < m) {
-                    if (tomatoBoxes[row][col + 1] == 0) {
-                        tomatoBoxes[row][col + 1] = nextDay;
-                        queue.add(new Spot(row, col + 1));
-                    }
-                }
-
-                if (row + n < n * h) {
-                    if (tomatoBoxes[row + n][col] == 0) {
-                        tomatoBoxes[row + n][col] = nextDay;
-                        queue.add(new Spot(row + n, col));
-                    }
-                }
-
-                if (row - n >= 0) {
-                    if (tomatoBoxes[row - n][col] == 0) {
-                        tomatoBoxes[row - n][col] = nextDay;
-                        queue.add(new Spot(row - n, col));
+                if (nz >= 0 && nz < h && ny >= 0 && ny < n && nx >= 0 && nx < m) {
+                    if (tomatoBoxes[nz][ny][nx] == 0) {
+                        tomatoBoxes[nz][ny][nx] = tomatoBoxes[z][y][x] + 1;
+                        queue.add(new Spot(nz, ny, nx));
                     }
                 }
             }
-
         }
-
     }
 
     static class Spot {
-        public int row, col;
+        public int z, y, x;
 
-        public Spot(int row, int col) {
-            this.row = row;
-            this.col = col;
+        public Spot(int z, int y, int x) {
+            this.z = z;
+            this.y = y;
+            this.x = x;
         }
     }
 }
