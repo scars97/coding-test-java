@@ -1,11 +1,12 @@
 package spartacodingclub.mission.week03;
 
-import java.util.Scanner;
+import java.util.*;
 
 public class StringCard {
 
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
+        StringBuilder sb = new StringBuilder();
 
         int T = sc.nextInt();
         for (int i = 0; i < T; i++) {
@@ -16,22 +17,22 @@ public class StringCard {
                 alphabets[j] = sc.next();
             }
 
-            String first = alphabets[0];
-            String result = first;
+            String result = alphabets[0];
             for (int j = 1; j < alphabets.length; j++) {
-                String tmp = alphabets[j];
+                char tmp = alphabets[j].charAt(0);
 
-                // 사전 순으로 첫 번째 알파벳보다 tmp가 앞에 있으면 왼쪽으로 이동
-                if (first.hashCode() > tmp.hashCode()) {
-                    result = tmp.concat(result);
-                } else {
-                    result = result.concat(tmp);
+                // 반복문을 돌때마다 생성되는 결과 문자열의 첫 번째 문자와 비교
+                if (result.charAt(0) >= tmp) { // first
+                    result = alphabets[j].concat(result);
+                } else { // last
+                    result = result.concat(alphabets[j]);
                 }
             }
 
-            System.out.println(result);
+            sb.append(result).append("\n");
         }
 
+        System.out.println(sb);
         sc.close();
     }
 }
