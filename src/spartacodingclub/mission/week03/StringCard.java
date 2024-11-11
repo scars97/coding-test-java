@@ -1,20 +1,24 @@
 package spartacodingclub.mission.week03;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.*;
 
 public class StringCard {
 
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringBuilder sb = new StringBuilder();
 
-        int T = sc.nextInt();
+        int T = Integer.parseInt(br.readLine());
         for (int i = 0; i < T; i++) {
-            int N = sc.nextInt();
+            int N = Integer.parseInt(br.readLine());
 
+            StringTokenizer st = new StringTokenizer(br.readLine());
             String[] alphabets = new String[N];
             for (int j = 0; j < N; j++) {
-                alphabets[j] = sc.next();
+                alphabets[j] = st.nextToken();
             }
 
             String result = alphabets[0];
@@ -33,6 +37,6 @@ public class StringCard {
         }
 
         System.out.println(sb);
-        sc.close();
+        br.close();
     }
 }
