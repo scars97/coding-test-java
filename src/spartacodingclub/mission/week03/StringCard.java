@@ -21,19 +21,23 @@ public class StringCard {
                 alphabets[j] = st.nextToken();
             }
 
-            String result = alphabets[0];
+            Deque<String> deque = new ArrayDeque<>();
+            deque.addFirst(alphabets[0]);
+
             for (int j = 1; j < alphabets.length; j++) {
                 char tmp = alphabets[j].charAt(0);
 
-                // 반복문을 돌때마다 생성되는 결과 문자열의 첫 번째 문자와 비교
-                if (result.charAt(0) >= tmp) { // first
-                    result = alphabets[j].concat(result);
+                if (deque.getFirst().charAt(0) >= tmp) { // first
+                    deque.addFirst(alphabets[j]);
                 } else { // last
-                    result = result.concat(alphabets[j]);
+                    deque.addLast(alphabets[j]);
                 }
             }
 
-            sb.append(result).append("\n");
+            while (!deque.isEmpty()) {
+                sb.append(deque.remove());
+            }
+            sb.append("\n");
         }
 
         System.out.println(sb);
