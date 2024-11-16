@@ -1,7 +1,6 @@
 package spartacodingclub.mission.week03;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class PracticeTest {
@@ -10,11 +9,11 @@ public class PracticeTest {
 
         int[] answers1 = {1, 2, 3, 4, 5};
         int[] answers2 = {1, 3, 2, 4, 2};
-        int[] solution = new PracticeTest().solution(answers1);
-        System.out.println(Arrays.toString(solution));
+        List<Integer> solution = new PracticeTest().solution(answers1);
+        System.out.println(solution);
     }
 
-    public int[] solution(int[] answers) {
+    public List<Integer> solution(int[] answers) {
         int[] counts = new int[3];
 
         int[] take1 = {1, 2, 3, 4, 5};
@@ -42,11 +41,6 @@ public class PracticeTest {
             if (counts[i] == max) answer.add(i + 1);
         }
 
-        int[] result = new int[answer.size()];
-        for (int i = 0; i < result.length; i++) {
-            result[i] = answer.get(i);
-        }
-
-        return result;
+        return answer;
     }
 }
