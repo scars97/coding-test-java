@@ -15,16 +15,18 @@ public class Carpet {
 
             int totalSize = brown + yellow;
             int col = 3;
-            int row = totalSize / col;
             while (totalSize / col >= col) {
                 if (totalSize % col == 0) {
-                    row = Math.min(row, totalSize / col);
+                    // 갈색 테두리는 1줄.
+                    // (가로 - 2) * (세로 - 2) = yellow 개수
+                    if ((totalSize / col - 2) * (col - 2) == yellow) {
+                        answer[0] = totalSize / col;
+                        answer[1] = col;
+                        break;
+                    }
                 }
                 col++;
             }
-
-            answer[0] = row;
-            answer[1] = totalSize / row;
 
             return answer;
         }
