@@ -10,18 +10,20 @@ public class RockGame {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         int N = Integer.parseInt(br.readLine());
 
-        int bringStones = N >= 3 ? 3 : 1;
-        int playCount = 0;
-        while (N != 0) {
-            N -= bringStones;
+        // DP 배열: dp[i] = true면 SK 승리, false면 CY 승리
+        boolean[] dp = new boolean[N + 1];
 
-            bringStones = N >= 3 ? 3 : 1;
+        // 초기 상태 설정
+        dp[1] = true; // 1개일 때 SK 승리
+        if (N > 1) dp[2] = false; // 2개일 때 CY 승리
+        if (N > 2) dp[3] = true; // 3개일 때 SK 승리
 
-            playCount++;
+        // 동적 계획법 계산
+        for (int i = 4; i <= N; i++) {
+            dp[i] = !dp[i - 1] || !dp[i - 3];
         }
 
-        String winner = playCount % 2 != 0 ? "SK" : "CY";
-        System.out.println(winner);
-        br.close();
+        // 결과 출력
+        System.out.println(dp[N] ? "SK" : "CY");
     }
 }
