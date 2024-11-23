@@ -21,37 +21,37 @@ public class DecreasePartialSequences {
             arr[i] = Integer.parseInt(st.nextToken());
         }
 
-        int result = getLdsLength(arr);
+        int result = lds(arr);
         System.out.println(result);
         br.close();
     }
 
-    private static int getLdsLength(int[] arr) {
+    private static int lds(int[] arr) {
         ArrayList<Integer> list = new ArrayList<>();
         list.add(arr[0]);
 
         for (int i = 1; i < arr.length; i++) {
-            int el = arr[i];
-            if (list.get(list.size() - 1) > el) {
-                list.add(el);
+            int current = arr[i];
+            if (list.get(list.size() - 1) > current) {
+                list.add(current);
             } else {
-                int idx = binarySearch(list, el);
-                list.set(idx, el);
+                int idx = binarySearch(list, current);
+                list.set(idx, current);
             }
         }
 
         return list.size();
     }
 
-    private static int binarySearch(ArrayList<Integer> list, int el) {
+    private static int binarySearch(ArrayList<Integer> list, int current) {
         int left = 0;
         int right = list.size() - 1;
 
         while (left <= right) {
-            int mid = left + (right - left) / 2;
-            if (list.get(mid) == el) {
+            int mid = (left + right) / 2;
+            if (list.get(mid) == current) {
                 return mid;
-            } else if (list.get(mid) > el) {
+            } else if (list.get(mid) > current) {
                 left = mid + 1;
             } else {
                 right = mid - 1;
