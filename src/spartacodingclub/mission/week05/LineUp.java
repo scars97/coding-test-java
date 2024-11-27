@@ -22,14 +22,13 @@ public class LineUp {
         br.close();
 
         int result = lis(arr, N);
-        System.out.println(result);
+        System.out.println(N - result);
     }
 
     private static int lis(int[] arr, int N) {
         ArrayList<Integer> list = new ArrayList<>();
         list.add(arr[0]);
 
-        int count = 0;
         for (int i = 0; i < N; i++) {
             int tmp = arr[i];
             if (list.get(list.size() - 1) < tmp) {
@@ -37,14 +36,10 @@ public class LineUp {
             } else {
                 int index = binarySearch(list, tmp);
                 list.set(index, tmp);
-                count++;
             }
         }
 
-        // -1 을 한 이유
-        // 1번이 옮겨진다 해도 자기 자신만 맨 앞으로 이동하면 되기 때문에
-        // 자리를 바꾼 횟수에 포함 시키지 않았다.
-        return count != 0 ? count - 1 : 0;
+        return list.size();
     }
 
     private static int binarySearch(ArrayList<Integer> list, int tmp) {
