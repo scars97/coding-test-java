@@ -16,48 +16,45 @@ public class BitonicSequence {
         int N = Integer.parseInt(br.readLine());
         int[] arr = new int[N];
         int[] lis = new int[N];
+        int[] lds = new int[N];
         StringTokenizer st = new StringTokenizer(br.readLine());
         for (int i = 0; i < N; i++) {
             arr[i] = Integer.parseInt(st.nextToken());
             lis[i] = 1;
+            lds[i] = 1;
         }
         br.close();
 
         /*
-        * 풀이 방법
-        * LIS 개수 + LDS 개수
-        * 구해진 LIS 수열 중 가장 끝자리 숫자 인덱스를 선택
-        * 해당 인덱스로 시작하는 LDS 수열을 구한다.
+        * 풀이방법
+        * LIS 와 LDS 배열을 각각 나누고
+        * 두 배열의 같은 인덱스를 가지는 값끼리 더하여 최댓값을 찾는다.
+        * 원소들이 1개씩 중복되어 있기 때문에 최댓값에서 -1 을 해준다.
         * */
 
         // LIS
-        int lisCount = 0;
-        int ldsStartIdx = 0;
         for (int i = 0; i < N; i++) {
             for (int j = 0; j < i; j++) {
                 if (arr[j] < arr[i]) {
                     lis[i] = Math.max(lis[i], lis[j] + 1);
                 }
             }
-            int beforeCount = lisCount;
-            lisCount = Math.max(lisCount, lis[i]);
-            if (lisCount != beforeCount) {
-                ldsStartIdx = i;
-            }
         }
 
         // LDS
-        int[] lds = new int[N];
-        int ldsCount = 0;
-        for (int i = ldsStartIdx; i < N; i++) {
-            for (int j = ldsStartIdx; j < i; j++) {
-                if (arr[i] < arr[j]) {
+        for (int i = N - 1; i >= 0; i--) {
+            for (int j = N - 1; j >= i; j--) {
+                if (arr[j] < arr[i]) {
                     lds[i] = Math.max(lds[i], lds[j] + 1);
                 }
             }
-            ldsCount = Math.max(ldsCount, lds[i]);
         }
 
-        System.out.println(lisCount + ldsCount);
+        int result = 0;
+        for (int i = 0; i < N; i++) {
+            result = Math.max(result, lis[i] + lds[i]);
+        }
+
+        System.out.println(result - 1);
     }
 }
