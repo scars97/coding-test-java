@@ -13,37 +13,41 @@ public class IdSuggestion {
     static class Solution {
 
         public String solution(String new_id) {
-            String answer = "";
+            StringBuilder answer = new StringBuilder(new_id.toLowerCase());
 
-            // 1
-            answer = new_id.toLowerCase();
-
-            // 2
-            answer = answer.replaceAll("[^a-z0-9._-]", "");
-
-            // 3
-            answer = answer.replaceAll("[.]+", ".");
-
-            // 4
-            answer = answer.replaceAll("^[.]|[.]$", "");
-
-            // 5
-            answer = answer.isEmpty() ? "a" : answer;
-
-            // 6
-            if (answer.length() > 15) {
-                answer = answer.substring(0, 15);
-                answer = answer.replaceAll("[.]$", "");
-            }
-
-            // 7
-            if (answer.length() <= 2) {
-                while (answer.length() != 3) {
-                    answer += answer.charAt(answer.length() - 1);
+            for (int i = 0; i < answer.length(); i++) {
+                char ch = answer.charAt(i);
+                if (!(Character.isLowerCase(ch) || Character.isDigit(ch) || ch == '-' || ch == '_' || ch == '.')) {
+                    answer.deleteCharAt(i);
+                    i--;
                 }
             }
 
-            return answer;
+            for (int i = 1; i < answer.length(); i++) {
+                if (answer.charAt(i) == '.' && answer.charAt(i - 1) == '.') {
+                    answer.deleteCharAt(i);
+                    i--;
+                }
+            }
+            if (answer.length() > 0 && answer.charAt(0) == '.') {
+                answer.deleteCharAt(0);
+            }
+            if (answer.length() > 0 && answer.charAt(answer.length() - 1) == '.') {
+                answer.deleteCharAt(answer.length() - 1);
+            }
+            if (answer.length() == 0) {
+                answer.append("a");
+            }
+            if (answer.length() > 15) {
+                answer.setLength(15);
+                if (answer.charAt(answer.length() - 1) == '.') {
+                    answer.deleteCharAt(answer.length() - 1);
+                }
+            }
+            while (answer.length() < 3) {
+                answer.append(answer.charAt(answer.length() - 1));
+            }
+            return answer.toString();
         }
     }
 }
