@@ -44,7 +44,7 @@ public class PrivacyValidityPeriod {
             return answer;
         }
 
-        private static Map<String, Long> termsTypeWithPeriod(String[] terms) {
+        private Map<String, Long> termsTypeWithPeriod(String[] terms) {
             Map<String, Long> termsMap = new HashMap<>();
             for (String term : terms) {
                 String[] termArr = term.split(" ");
@@ -53,7 +53,7 @@ public class PrivacyValidityPeriod {
             return termsMap;
         }
 
-        private static LocalDate convertToDate(String date) {
+        private LocalDate convertToDate(String date) {
             String[] split = date.split("\\.");
             return LocalDate.of(Integer.parseInt(split[0]), Integer.parseInt(split[1]), Integer.parseInt(split[2]));
         }
