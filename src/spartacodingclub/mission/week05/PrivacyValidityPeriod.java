@@ -20,36 +20,42 @@ public class PrivacyValidityPeriod {
         public List<Integer> solution(String today, String[] terms, String[] privacies) {
 
             // 현재 날짜 Date 형식으로 변경
-            String[] todayArr = today.split("\\.");
-            LocalDate todayDate = LocalDate.of(Integer.parseInt(todayArr[0]), Integer.parseInt(todayArr[1]), Integer.parseInt(todayArr[2]));
+            LocalDate todayDate = convertToDate(today);
 
             // terms 에서 약관, 유효기간 분리
-            Map<String, Long> termsMap = new HashMap<>();
-            for (String term : terms) {
-                String[] termArr = term.split(" ");
-                termsMap.put(termArr[0], Long.valueOf(termArr[1]));
-            }
+            Map<String, Long> termsMap = termsTypeWithPeriod(terms);
 
-            // 2021.05.02 A, 2021.07.01 B, 2022.02.19 C, 2022.02.20 C
             // privacies 의 유효기간 구하기
             List<Integer> answer = new ArrayList<>();
             for (int i = 0; i < privacies.length; i++) {
                 String[] privacyArr = privacies[i].split(" ");
 
-                String termsType = privacyArr[1];
-                Long addMonth = termsMap.get(termsType);
+                LocalDate startCollectDate = convertToDate(privacyArr[0]);
 
-                String[] privacyPeriodArr = privacyArr[0].split("\\.");
-                LocalDate startCollectDate = LocalDate.of(Integer.parseInt(privacyPeriodArr[0]), Integer.parseInt(privacyPeriodArr[1]), Integer.parseInt(privacyPeriodArr[2]));
-                LocalDate endCollectDate = startCollectDate.plusMonths(addMonth).minusDays(1L);
+                Long period = termsMap.get(privacyArr[1]);
+                LocalDate validityPeriod = startCollectDate.plusMonths(period).minusDays(1L);
 
                 // 현재 날짜와 비교
-                if (endCollectDate.isBefore(todayDate)) {
+                if (validityPeriod.isBefore(todayDate)) {
                     answer.add(i + 1);
                 }
             }
 
             return answer;
+        }
+
+        private static Map<String, Long> termsTypeWithPeriod(String[] terms) {
+            Map<String, Long> termsMap = new HashMap<>();
+            for (String term : terms) {
+                String[] termArr = term.split(" ");
+                termsMap.put(termArr[0], Long.valueOf(termArr[1]));
+            }
+            return termsMap;
+        }
+
+        private static LocalDate convertToDate(String date) {
+            String[] split = date.split("\\.");
+            return LocalDate.of(Integer.parseInt(split[0]), Integer.parseInt(split[1]), Integer.parseInt(split[2]));
         }
     }
 }
